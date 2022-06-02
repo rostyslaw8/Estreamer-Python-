@@ -1,6 +1,6 @@
 import ssl
 import struct
-from socket import socket
+import socket
 
 MESSAGE_REQUEST_PACKET_DATA = 1
 MESSAGE_REQUEST_IMPACT = 1 << 5
