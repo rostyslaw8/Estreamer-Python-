@@ -42,7 +42,7 @@ class Connection(object):
         port = 8302
         self.socket.connect((host, port))
 
-        self.socket.settimeout(1)
+        self.socket.settimeout(10)
 
     def close(self):
         """closes the connection"""

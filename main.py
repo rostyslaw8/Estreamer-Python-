@@ -13,8 +13,9 @@ sock = ssl.wrap_socket(
         do_handshake_on_connect=True,
         ssl_version=tlsVersion)
 
-
+sock.settimeout(10)
 connection = Connection(sock)
+connection.connect()
 print('Connection succesfulle')
 receiver = Receiver(connection)
 receiver.init()
