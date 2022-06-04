@@ -72,7 +72,7 @@ class Connection(object):
 
         while want > 0:
             try:
-
+                print("try to recv new bytes")
                 peekBytes = self.socket.recv(want)
                 got = len(peekBytes)
                 if got == 0:
@@ -83,6 +83,7 @@ class Connection(object):
                 want = want - got
 
             except socket.error:
+                print('socket error in __read')
                 duration = time.time() - start
 
                 if got > lastGot:
@@ -98,7 +99,7 @@ class Connection(object):
         dataBuffer = self.__read(8)
 
         (version, messageType, length) = struct.unpack('>HHL', dataBuffer)
-
+        print(messageType, length)
         message = {
             'version': version,
             'messageType': messageType,
@@ -113,7 +114,7 @@ class Connection(object):
 
             if not self.firstReceiveTime:
                 self.firstReceiveTime = self.lastReceiveTime
-
+            print('read data from connection in response')
             message['data'] = self.__read(length)
 
             actualLength = len(message['data'])

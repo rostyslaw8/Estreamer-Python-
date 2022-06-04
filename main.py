@@ -15,6 +15,7 @@ socket = ssl.wrap_socket(
 
 
 connection = Connection(socket)
+print('Connection succesfulle')
 receiver = Receiver(connection)
 while True:
     receiver.next()

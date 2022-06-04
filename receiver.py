@@ -36,6 +36,7 @@ class Receiver(object):
         self.connection = connectionParam
 
     def _ack(self):
+        print("NullMessage")
         self.connection.request(NullMessage())
 
     def _requestStreamingInformation(self, responseMessage):
@@ -58,6 +59,8 @@ class Receiver(object):
             raise Exception('No StreamingInformation service')
 
         serviceMessage = StreamingRequestMessage(self.settings)
+        print('serviceMessage')
+        print(serviceMessage.data)
         self.connection.request(serviceMessage)
 
     def _parseMessageBundle(self, messageBundle):
@@ -95,7 +98,7 @@ class Receiver(object):
         flags = Settings.requestFlags()
 
         eventMessage = EventStreamRequestMessage(timestamp, flags)
-
+        print('send first EventStreamRequestMessage')
         self.connection.request(eventMessage)
 
     # def _send(self, message):
@@ -108,9 +111,10 @@ class Receiver(object):
         Call this to attempt to read from the connection. Keep calling it.
         In a loop
         """
-
+        print('read bytes from connection')
         newMessage = self.connection.response()
         if newMessage['messageType'] == definitions.MESSAGE_TYPE_STREAMING_INFORMATION:
+            print('requestStreamingInformation')
             self._requestStreamingInformation(newMessage)
 
         elif newMessage['messageType'] == definitions.MESSAGE_TYPE_MESSAGE_BUNDLE:
@@ -120,9 +124,9 @@ class Receiver(object):
             print('Got null message.')
 
         elif newMessage['messageType'] == definitions.MESSAGE_TYPE_EVENT_DATA:
-            print(newMessage)
+            print('newMessage')
 
         elif newMessage['messageType'] == definitions.MESSAGE_TYPE_ERROR:
             raise Exception("Error Message")
-        time.sleep(1)
+        # time.sleep(1)
         self._ack()
