@@ -20,6 +20,7 @@
 import struct
 import time
 import definitions
+from eventstream import EventStreamRequestMessage
 from streaming import StreamingRequestMessage
 from null import NullMessage
 from settings import Settings
@@ -93,7 +94,7 @@ class Receiver(object):
         timestamp = 0
         flags = Settings.requestFlags()
 
-        eventMessage = TestEstremerFuncs.EventStreamRequestMessage(timestamp, flags)
+        eventMessage = EventStreamRequestMessage(timestamp, flags)
 
         self.connection.request(eventMessage)
 

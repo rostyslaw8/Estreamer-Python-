@@ -18,7 +18,6 @@
 from __future__ import absolute_import
 import datetime
 import socket
-import ssl
 import struct
 import time
 import definitions
@@ -30,32 +29,18 @@ class Connection(object):
     sending and receiving messages
     """
 
-    def __init__(self):
-        # self.settings = settings
+    def __init__(self, socketParam):
         self.firstReceiveTime = None
         self.lastReceiveTime = None
-        self.socket = None
+        self.socket = socketParam
 
     def connect(self):
         """
         Opens a secure connection to the remote host
         """
+
         host = '10.250.102.84'
         port = 8302
-
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        # Default TLS
-        tlsVersion = ssl.PROTOCOL_TLSv1_2
-
-        self.socket = ssl.wrap_socket(
-            sock,
-            keyfile=r'/home/loft/EnergoAtomEncore/10.250.102.84-8302_pkcs.key',
-            certfile=r'/home/loft/EnergoAtomEncore/10.250.102.84-8302_pkcs.cert',
-            do_handshake_on_connect=True,
-            ssl_version=tlsVersion)
-
-        self.socket.settimeout(self.settings.connectTimeout)
         self.socket.connect((host, port))
         self.socket.settimeout(1)
 
