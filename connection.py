@@ -90,9 +90,6 @@ class Connection(object):
                     lastGot = got
                     start = time.time()
 
-                if duration >= self.settings.responseTimeout:
-                    raise Exception('Connection read timeout')
-
         return dataBuffer
 
     def response(self):
