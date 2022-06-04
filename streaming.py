@@ -17,6 +17,7 @@
 
 from base import Base
 import definitions as definitions
+from settings import Settings
 
 
 class StreamingRequestMessage(Base):
@@ -25,18 +26,17 @@ class StreamingRequestMessage(Base):
     is defined on page 45 (2-29) of the 6.0.0 spec
     """
 
-    def __init__(self, settings):
+    def __init__(self):
         super(StreamingRequestMessage, self).__init__(
             definitions.MESSAGE_TYPE_STREAMING_REQUEST,
             '>HHLLLLL')
 
-        self.settings = settings
         self.append(definitions.MESSAGE_STREAMING_INFORMATION_REQUEST_SERVICE_ID, 4)
 
         # temp slot for the second size (always zero)
         self.append(0, 4)
-        self.append(self.settings.requestFlags(), 4)
-        self.append(self.settings.initialTimestamp(), 4)
+        self.append(Settings.requestFlags(), 4)
+        self.append(0, 4)
         self.__appendEvents()
 
     def fixData(self):

@@ -59,7 +59,7 @@ class Receiver(object):
         if not gotService:
             raise Exception('No StreamingInformation service')
 
-        serviceMessage = StreamingRequestMessage(self.settings)
+        serviceMessage = StreamingRequestMessage()
         print('serviceMessage')
 
         self.connection.request(serviceMessage)
