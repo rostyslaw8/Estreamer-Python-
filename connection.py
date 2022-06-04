@@ -17,7 +17,6 @@
 
 from __future__ import absolute_import
 import datetime
-import socket
 import struct
 import time
 import definitions
@@ -42,6 +41,7 @@ class Connection(object):
         host = '10.250.102.84'
         port = 8302
         self.socket.connect((host, port))
+
         self.socket.settimeout(1)
 
     def close(self):
@@ -63,6 +63,9 @@ class Connection(object):
         print(buf)
         self.socket.send(buf)
 
+    def sendBuf(self, buf):
+        self.socket.send(buf)
+
     def __read(self, want):
         """Read and return 'want' bytes from the network"""
         dataBuffer = b''  # py3edit
@@ -82,7 +85,7 @@ class Connection(object):
                 dataBuffer += peekBytes
                 want = want - got
 
-            except socket.error:
+            except:
                 print('socket error in __read')
                 duration = time.time() - start
 

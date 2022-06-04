@@ -31,7 +31,8 @@ class Receiver(object):
     Receiver opens a host connection and sends an Event Stream Request.
     It then handles responses with the provided callback
     """
-# settings
+
+    # settings
     def __init__(self, connectionParam):
         self.connection = connectionParam
 
@@ -60,7 +61,7 @@ class Receiver(object):
 
         serviceMessage = StreamingRequestMessage(self.settings)
         print('serviceMessage')
-        print(serviceMessage.data)
+
         self.connection.request(serviceMessage)
 
     def _parseMessageBundle(self, messageBundle):
@@ -100,7 +101,10 @@ class Receiver(object):
         eventMessage = EventStreamRequestMessage(timestamp, flags)
 
         print('send first EventStreamRequestMessage')
-        self.connection.request(eventMessage)
+        print(eventMessage.getWireData())
+        self.connection.sendBuf(struct.pack('>HHLLL', *[1, 2, 8, 0, 1217396833]))
+        #self.connection.request(eventMessage)
+
 
     # def _send(self, message):
     #     self.sequence += 1
