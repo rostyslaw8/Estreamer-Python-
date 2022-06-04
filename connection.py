@@ -60,7 +60,7 @@ class Connection(object):
     def request(self, message):
         """Issue a request"""
         buf = message.getWireData()
-
+        print(buf)
         self.socket.send(buf)
 
     def __read(self, want):

@@ -96,8 +96,9 @@ class Receiver(object):
         """
         timestamp = 0
         flags = Settings.requestFlags()
-
+        print(flags)
         eventMessage = EventStreamRequestMessage(timestamp, flags)
+
         print('send first EventStreamRequestMessage')
         self.connection.request(eventMessage)
 
