@@ -19,6 +19,8 @@
 
 import struct
 import time
+import uuid
+
 import definitions
 from eventstream import EventStreamRequestMessage
 from streaming import StreamingRequestMessage
@@ -32,12 +34,10 @@ class Receiver(object):
     It then handles responses with the provided callback
     """
 
-    # settings
     def __init__(self, connectionParam):
         self.connection = connectionParam
 
     def _ack(self):
-        print("NullMessage")
         self.connection.request(NullMessage())
 
     def _requestStreamingInformation(self, responseMessage):
@@ -101,10 +101,8 @@ class Receiver(object):
         eventMessage = EventStreamRequestMessage(timestamp, flags)
 
         print('send first EventStreamRequestMessage')
-        print(eventMessage.getWireData())
-        self.connection.sendBuf(struct.pack('>HHLLL', *[1, 2, 8, 0, 1217396833]))
-        #self.connection.request(eventMessage)
-
+        # self.connection.sendBuf(struct.pack('>HHLLL', *[1, 2, 8, 0, 1217396833]))
+        self.connection.request(eventMessage)
 
     # def _send(self, message):
     #     self.sequence += 1
@@ -123,15 +121,19 @@ class Receiver(object):
             self._requestStreamingInformation(newMessage)
 
         elif newMessage['messageType'] == definitions.MESSAGE_TYPE_MESSAGE_BUNDLE:
+            self.writeMessageDataToFile(newMessage['data'])
             print('Message bundle')
 
         elif newMessage['messageType'] == definitions.MESSAGE_TYPE_NULL:
             print('Got null message.')
 
         elif newMessage['messageType'] == definitions.MESSAGE_TYPE_EVENT_DATA:
-            print('newMessage')
+            print('eventDataMessage')
 
         elif newMessage['messageType'] == definitions.MESSAGE_TYPE_ERROR:
             raise Exception("Error Message")
-        # time.sleep(1)
         self._ack()
+
+    def writeMessageDataToFile(self, data):
+        with open(r"/home/loft/EnergeAtomEncore/Estreamer/temp/{0}.txt".format(uuid.uuid4()), "wb") as binary_file:
+            binary_file.write(data)

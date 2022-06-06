@@ -60,7 +60,6 @@ class Connection(object):
     def request(self, message):
         """Issue a request"""
         buf = message.getWireData()
-        print(buf)
         self.socket.send(buf)
 
     def sendBuf(self, buf):
@@ -102,7 +101,6 @@ class Connection(object):
         dataBuffer = self.__read(8)
 
         (version, messageType, length) = struct.unpack('>HHL', dataBuffer)
-        print(messageType, length)
         message = {
             'version': version,
             'messageType': messageType,
@@ -117,7 +115,6 @@ class Connection(object):
 
             if not self.firstReceiveTime:
                 self.firstReceiveTime = self.lastReceiveTime
-            print('read data from connection in response')
             message['data'] = self.__read(length)
 
             actualLength = len(message['data'])

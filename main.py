@@ -11,7 +11,7 @@ sock = ssl.wrap_socket(
         keyfile=r'/home/loft/EnergoAtomEncore/10.250.102.84-8302_pkcs.key',
         certfile=r'/home/loft/EnergoAtomEncore/10.250.102.84-8302_pkcs.cert',
         do_handshake_on_connect=True,
-        ssl_version=tlsVersion)
+        ssl_version=tlsVersion.PROTOCOL_TLSv1_2)
 
 sock.settimeout(10)
 connection = Connection(sock)
